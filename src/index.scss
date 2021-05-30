@@ -3,6 +3,8 @@ $text-primary-dark: #393939;
 $text-secondary-dark: #696969;
 $text-primary-light: #EFEFEF;
 $btn-primary: #0883D8;
+$btn-secondary: #F08D49;
+$btn-danger: #CC0000;
 $light-gray: #989898;
 
 *, 
@@ -41,6 +43,14 @@ code {
 }
 .btn-primary {
     background-color: $btn-primary;
+    color: $text-primary-light;
+}
+.btn-secondary {
+    background-color: $btn-secondary;
+    color: $text-primary-light;
+}
+.btn-danger {
+    background-color: $btn-danger;
     color: $text-primary-light;
 }
 .link {
@@ -111,7 +121,7 @@ code {
 /* ContactList.js */
 #list {
     width: auto;
-    max-width: 920px;
+    max-width: 720px;
     max-height: 100vh;
     margin: 0 auto;
     padding: 2rem 1rem;
@@ -232,6 +242,7 @@ code {
         .add-title {
             flex-grow: 1;
             color: $text-primary-dark;
+            text-transform: capitalize;
         }
     }
     .add-body {
@@ -274,6 +285,73 @@ code {
                     width: 15%;
                     text-align: center;
                 }
+                .btns {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
+
+/* Loading.js */
+#loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 0;
+    font-size: 3rem;
+    color: $text-secondary-dark;
+    h4 {
+        display: flex;
+        align-items: center;
+        span {
+            margin: 1rem 4rem 0 0;
+        }
+    }
+}
+
+/* Error.js */
+#error {
+    z-index: 2;
+    background-color: #445760;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .container {
+        width: 50%;
+        height: 50%;
+        margin: 0 auto;
+        padding: 2rem;
+        text-align: center;
+        background-color: $text-secondary-dark;
+        .heading {
+            font-size: 2.5rem;
+            color: $text-primary-light;
+        }
+        .description {
+            margin: 3rem 0;
+            font-size: 2rem;
+            color: $text-primary-light;
+        }
+        .links {
+            width: 100%;
+            margin: 2rem 0;
+            padding: 0 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            a {
+                text-decoration: none;
+                font-size: 1.25rem;
+                font-weight: 500;
+                color: $text-primary-light;
             }
         }
     }

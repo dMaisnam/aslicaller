@@ -1,8 +1,22 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit, FiSearch } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 
+import Loading from "./Loading";
+
 function ContactList() {
+    const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(async () => {
+        setLoading(true);
+        const res = await fetch("http://localhost:3001/allContacts");
+        const data = await res.json();
+        setContacts(data);
+        setLoading(false);
+    }, []);
+
     return (
         <section id="list">
             <div className="list-header">
@@ -23,8 +37,11 @@ function ContactList() {
             <div className="list-body">
                 <div className="content">
                     {
-                        data.map((item) => {
+                        loading
+                        ? <Loading title="contacts" />
+                        : contacts.map((item) => {
                             const { id, firstName, lastName, email } = item;
+                            const slug = `${firstName.toLocaleLowerCase()}-${lastName.toLocaleLowerCase()}`;
                             return (
                                 <div key={id} className="content-card">
                                     <div className="contact">
@@ -35,7 +52,9 @@ function ContactList() {
                                         </div>
                                     </div>
                                     <div className="icons">
-                                        <FiEdit className="edit" />
+                                        <Link to={`/${slug}/edit`}>
+                                            <FiEdit className="edit" />
+                                        </Link>
                                         <AiOutlineDelete className="delete" />
                                     </div>
                                 </div>
@@ -47,11 +66,5 @@ function ContactList() {
         </section>
     );
 }
-
-const data = [
-    { id: 1, firstName: "Shaun", lastName: "Drover", email: "shaun@email.com" },
-    { id: 1, firstName: "Leon", lastName: "Kennedy", email: "leonk@email.com" },
-    { id: 1, firstName: "Mia", lastName: "Winters", email: "winters.mia@email.com" },
-]
 
 export default ContactList;
