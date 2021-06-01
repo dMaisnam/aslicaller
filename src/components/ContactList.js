@@ -4,17 +4,18 @@ import { FiEdit, FiSearch } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 
 import Loading from "./Loading";
+import axios from "axios";
 
-function ContactList() {
-    const [contacts, setContacts] = useState([]);
+function ContactList({ contacts, removeContact }) {
     const [loading, setLoading] = useState(false);
 
-    useEffect(async () => {
+    const removeContactHandler = async (id) => {
+        removeContact(id);
+    }
+
+    useEffect(() => {
         setLoading(true);
-        const res = await fetch("http://localhost:3001/allContacts");
-        const data = await res.json();
-        setContacts(data);
-        setLoading(false);
+        contacts && setLoading(false);
     }, []);
 
     return (
@@ -41,7 +42,7 @@ function ContactList() {
                         ? <Loading title="contacts" />
                         : contacts.map((item) => {
                             const { id, firstName, lastName, email } = item;
-                            const slug = `${firstName.toLocaleLowerCase()}-${lastName.toLocaleLowerCase()}`;
+                            // const slug = `${firstName.toLocaleLowerCase()}-${lastName.toLocaleLowerCase()}`;
                             return (
                                 <div key={id} className="content-card">
                                     <div className="contact">
@@ -52,10 +53,13 @@ function ContactList() {
                                         </div>
                                     </div>
                                     <div className="icons">
-                                        <Link to={`/${slug}/edit`}>
+                                        <Link to={`/${id}/edit`}>
                                             <FiEdit className="edit" />
                                         </Link>
-                                        <AiOutlineDelete className="delete" />
+                                        <AiOutlineDelete 
+                                            className="delete"
+                                            onClick={() => removeContactHandler(id)}
+                                        />
                                     </div>
                                 </div>
                             );

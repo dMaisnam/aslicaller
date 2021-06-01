@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { v4 as uuid } from "uuid";
 
-function ContactAdd() {
+function ContactAdd({ addContactHandler }) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -8,6 +10,22 @@ function ContactAdd() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        if (firstName === "" || lastName === "" || email === "") {
+            alert("All fields are mandatory");
+            return;
+        }
+        const res = axios.post("http://localhost:3001/allContacts",
+            {
+                id: uuid(),
+                firstName,
+                lastName,
+                email 
+            }
+        );
+        addContactHandler(res);
+        setFirstName("");
+        setLastName("");
+        setEmail("");
     };
 
     useEffect(() => {
@@ -21,7 +39,7 @@ function ContactAdd() {
             </div>
             <div className="add-body">
                 <div className="content">
-                    <form className="form">
+                    <form className="form" onSubmit={handleFormSubmit}>
                         <div className="form-element">
                             <label for="firstName" className="form-label">First Name</label>
                             <input
@@ -53,7 +71,7 @@ function ContactAdd() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div className="btn btn-primary add-btn" onClick={() => handleFormSubmit}>Add Contact</div>
+                        <button className="btn btn-primary add-btn">Add Contact</button>
                     </form>
                 </div>
             </div>

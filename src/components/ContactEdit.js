@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 function ContactEdit() {
-    const { slug } = useParams();
+    const { id } = useParams();
     const [firstName, setFirstName] = useState("Shaun");
     const [lastName, setLastName] = useState("Drover");
     const [email, setEmail] = useState("shaun@email.com");
@@ -23,7 +23,7 @@ function ContactEdit() {
     return (
         <section id="add">
             <div className="add-header">
-                <div className="title add-title">Edit Contact {slug.replace("-", " ")}</div>
+                <div className="title add-title">Edit Contact {id}</div>
             </div>
             <div className="add-body">
                 <div className="content">
@@ -60,8 +60,8 @@ function ContactEdit() {
                             />
                         </div>
                         <div className="btns">
-                            <div className="btn btn-secondary" onClick={() => handleEditForm}>Edit Contact</div>
-                            <div className="btn btn-danger" onClick={() => handleDeleteForm}>Delete Contact</div>
+                            <button className="btn btn-secondary" onClick={() => handleEditForm}>Edit Contact</button>
+                            <button className="btn btn-danger" onClick={() => handleDeleteForm}>Delete Contact</button>
                         </div>
                     </form>
                 </div>
