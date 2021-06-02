@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 
-function ContactAdd({ addContactHandler }) {
+function ContactAdd(props) {
+    const { addContactHandler } = props;
+    let history = useHistory();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -26,6 +29,7 @@ function ContactAdd({ addContactHandler }) {
         setFirstName("");
         setLastName("");
         setEmail("");
+        history.push("/");
     };
 
     useEffect(() => {

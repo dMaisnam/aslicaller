@@ -37,6 +37,7 @@ code {
     border-radius: 4px;
     font-weight: 600;
     font-size: 1rem;
+    border: none;
     &:hover {
         cursor: pointer;
     }
@@ -73,7 +74,6 @@ code {
         cursor: pointer;
     }
     .logo {
-        color: $text-primary-dark;
         flex-grow: 1;
         text-align: center;
         text-transform: lowercase;
@@ -81,6 +81,10 @@ code {
         font-style: italic;
         font-weight: 600;
         font-size: 2.5rem;
+        a {
+            color: $text-primary-dark;
+            text-decoration: none;
+        }
     }
 }
 
@@ -266,16 +270,17 @@ code {
                     margin: 1rem 0;
                     label {
                         margin: 0.5rem 0;
-                        font-size: 1.5rem;
-                        color: $text-secondary-dark;
+                        font-size: 1.25rem;
+                        color: $text-primary-dark;
                     }
                     input {
                         width: 100%;
                         height: 2.5rem;
+                        font-size: 1.1rem;
                         padding: 4px 8px;
                         border-radius: 4px;
                         border: 0.5px solid $text-secondary-dark;
-                        columns: $text-secondary-dark;
+                        color: $text-secondary-dark;
                         &:focus {
                             border: 0.5px solid $text-secondary-dark;
                         }
@@ -283,9 +288,10 @@ code {
                 }
                 .add-btn {
                     margin: 2rem 0 0;
+                    padding: 1rem 1.5rem;
                     width: 15%;
+                    font-size: 1rem;
                     text-align: center;
-                    border: none;
                 }
                 .btns {
                     display: flex;

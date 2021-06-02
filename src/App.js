@@ -17,14 +17,17 @@ function App() {
         setContacts([...contacts, contact]);
     }
 
-    const editContactHandler = (id) => {
-        const contact = contacts.filter((contact) => {
-            return contact.id === id;
-        });
-        return contact;
+    const editContactHandler = async (contact) => {
+        const res = await axios.put(`http://localhost:3001/allContacts/${contact.id}`, contact);
+        const data = res.data;
+        const { id } = data;
+        setContacts(contacts.map((contact) => {
+            return contact.id === id ? {...res.data} : contact
+        })) ;       
     }
 
-    const removeContactHandler = (id) => {
+    const removeContactHandler = async (id) => {
+        await axios.delete(`http://localhost:3001/allContacts/${id}`);
         const newContacts = contacts.filter((contact) => {
             return contact.id !== id;
         });
@@ -42,21 +45,37 @@ function App() {
             <Header open={open} setOpen={setOpen} />
             <Sidebar open={open} />
             <Switch>
-                <Route exact path="/">
-                    <ContactList 
-                        contacts={contacts} 
-                        removeContact={removeContactHandler}
-                    />
-                </Route>
-                <Route path="/add-contact">
-                    <ContactAdd addContactHandler={addContactHandler} />
-                </Route>
-                <Route path="/:id/edit">
-                    <ContactEdit editContact={editContactHandler} />
-                </Route>
-                <Route path="*">
-                    <Error />
-                </Route>
+                <Route 
+                    exact 
+                    path="/" 
+                    render={(props) => (
+                        <ContactList 
+                            {...props} 
+                            contacts={contacts}
+                            removeContact={removeContactHandler}
+                        />
+                    )}
+                />
+                <Route
+                    path="/add-contact"
+                    render={(props) => (
+                        <ContactAdd
+                            {...props}
+                            addContactHandler={addContactHandler}
+                        />
+                    )}
+                />
+                <Route
+                    path="/:id/edit"
+                    render={(props) => (
+                        <ContactEdit
+                            {...props}
+                            editContact={editContactHandler} 
+                            // removeContact={removeContactHandler}
+                        />
+                    )}
+                />
+                <Route path="*" component={Error} />
             </Switch>
         </BrowserRouter>
     );

@@ -4,19 +4,17 @@ import { FiEdit, FiSearch } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 
 import Loading from "./Loading";
-import axios from "axios";
 
 function ContactList({ contacts, removeContact }) {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const removeContactHandler = async (id) => {
-        removeContact(id);
+        await removeContact(id);
     }
 
     useEffect(() => {
-        setLoading(true);
         contacts && setLoading(false);
-    }, []);
+    }, [contacts]);
 
     return (
         <section id="list">
@@ -42,11 +40,12 @@ function ContactList({ contacts, removeContact }) {
                         ? <Loading title="contacts" />
                         : contacts.map((item) => {
                             const { id, firstName, lastName, email } = item;
+                            const avatar = firstName[0].toUpperCase();
                             // const slug = `${firstName.toLocaleLowerCase()}-${lastName.toLocaleLowerCase()}`;
                             return (
                                 <div key={id} className="content-card">
                                     <div className="contact">
-                                        <div className="contact-avatar">{firstName.slice(0, 1)}</div>
+                                        <div className="contact-avatar">{avatar}</div>
                                         <div className="contact-detail">
                                             <p className="contact-name">{firstName + " " + lastName}</p>
                                             <p className="contact-email">{email}</p>
@@ -54,7 +53,9 @@ function ContactList({ contacts, removeContact }) {
                                     </div>
                                     <div className="icons">
                                         <Link to={`/${id}/edit`}>
-                                            <FiEdit className="edit" />
+                                            <FiEdit 
+                                                className="edit" 
+                                            />
                                         </Link>
                                         <AiOutlineDelete 
                                             className="delete"

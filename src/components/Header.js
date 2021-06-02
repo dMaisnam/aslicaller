@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 
@@ -12,7 +13,7 @@ function Header({ open, setOpen }) {
                 }
             </div>
             <div className="logo">
-                aslicaller
+                <Link to="/">aslicaller</Link>
             </div>
         </header>
     );

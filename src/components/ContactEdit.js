@@ -1,33 +1,49 @@
+import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
-function ContactEdit() {
+function ContactEdit(props) {
+    const { editContact } = props;
+    let history = useHistory();
     const { id } = useParams();
-    const [firstName, setFirstName] = useState("Shaun");
-    const [lastName, setLastName] = useState("Drover");
-    const [email, setEmail] = useState("shaun@email.com");
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
     const firstNameRef = useRef(null);
 
-    const handleEditForm = (e) => {
+    const handleEditForm = async (e) => {
         e.preventDefault();
+        if (firstName === "" || lastName === "" || email === "") {
+            alert("Field cannot be empty");
+            return;
+        }
+        const res = await axios.put(`http://localhost:3001/allContacts/${id}`, {
+            firstName,
+            lastName,
+            email
+        })
+        console.log(res.data);
+        editContact(res.data);
+        history.push("/");
     };
 
-    const handleDeleteForm = (e) => {
-        e.preventDefault();
-    };
-
-    useEffect(() => {
+    useEffect(async () => {
+        const res = await axios.get(`http://localhost:3001/allContacts/${id}`);
+        const data = res.data;
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
         firstNameRef.current.focus();
     }, []);
 
     return (
         <section id="add">
             <div className="add-header">
-                <div className="title add-title">Edit Contact {id}</div>
+                <div className="title add-title">Edit Contact {`${firstName} ${lastName}`}</div>
             </div>
             <div className="add-body">
                 <div className="content">
-                    <form className="form">
+                    <form className="form" onSubmit={handleEditForm}>
                         <div className="form-element">
                             <label for="firstName" className="form-label">First Name</label>
                             <input
@@ -60,8 +76,8 @@ function ContactEdit() {
                             />
                         </div>
                         <div className="btns">
-                            <button className="btn btn-secondary" onClick={() => handleEditForm}>Edit Contact</button>
-                            <button className="btn btn-danger" onClick={() => handleDeleteForm}>Delete Contact</button>
+                            <button className="btn btn-secondary add-btn">Edit Contact</button>
+                            {/* <button className="btn btn-danger" onClick={() => handleDeleteForm(id)}>Delete Contact</button> */}
                         </div>
                     </form>
                 </div>
